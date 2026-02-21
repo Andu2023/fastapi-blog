@@ -1,7 +1,45 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, requests
+from fastapi.responses import HTMLResponse
+from fastapi .templating import Jinja2Templates
 
 app = FastAPI()
+posts: list[dict] = [
+    {
+        "id": 1,
+        "author": "Corey Schafer",
+        "title": "FastAPI is Awesome",
+        "content": "This framework is really easy to use and super fast.",
+        "date_posted": "April 20, 2025",
+    },
+    {
+        "id": 2,
+        "author": "Jane Doe",
+        "title": "Python is Great for Web Development",
+        "content": "Python is a great language for web development, and FastAPI makes it even better.",
+        "date_posted": "April 21, 2025",
+    },
+]
 
-@app.get("/hello")
-def hello():
-    return {"message": "Hello World"}
+from fastapi import FastAPI
+from fastapi.responses import HTMLResponse
+
+app = FastAPI()
+templates = Jinja2Templates(directory="app/templates")
+
+@app.get("/", response_class=HTMLResponse)
+def home():
+    return """
+    <html>
+        <head>
+            <title>FastAPI Blog</title>
+        </head>
+        <body>
+            <h1>Welcome to FastAPI Blog</h1>
+            <p>This is an HTML response</p>
+        </body>
+    </html>
+    """
+
+@app.get("/posts")
+def get_posts():
+    return posts
